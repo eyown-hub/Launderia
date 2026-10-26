@@ -1,0 +1,117 @@
+<ion-content [fullscreen]="true">
+
+  <header class="site-header">
+    <a class="logo" role="button" tabindex="0" (click)="go('home')" (keydown.enter)="go('home')">
+      Launderia Laundry Express<small>NE Pacific Branch</small>
+    </a>
+    <nav aria-label="Main">
+      <button *ngFor="let n of navItems" type="button"
+              [attr.aria-current]="page === n.id ? 'page' : null"
+              (click)="go(n.id)">{{ n.label }}</button>
+    </nav>
+  </header>
+
+  <main>
+
+   
+    <section *ngIf="page === 'home'">
+      <div class="hero">
+        <div>
+          <h1>Where washing is never boring.</h1>
+          <p>Drop off, wait, or schedule a pickup. Pick the wash that fits your load and see the price before you come in.</p>
+          <div class="btns">
+            <button type="button" class="btn" (click)="go('services')">See the service menu</button>
+            <button type="button" class="btn alt" (click)="go('estimate')">Estimate my laundry</button>
+          </div>
+        </div>
+        <div class="tag" aria-label="Popular prices">
+          <h3>Popular prices</h3>
+          <ul>
+            <li *ngFor="let p of popular"><span>{{ p.name }}</span><b>{{ p.price }}</b></li>
+          </ul>
+        </div>
+      </div>
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li *ngFor="let s of steps"><h3>{{ s.title }}</h3>{{ s.text }}</li>
+      </ol>
+    </section>
+
+  
+    <section *ngIf="page === 'services'">
+      <h2>Service menu</h2>
+      <p>Choose a category to see what’s included and what it costs.</p>
+      <div class="tabs" role="tablist">
+        <button *ngFor="let c of categories" type="button" role="tab"
+                [attr.aria-selected]="c === category" (click)="category = c">{{ c }}</button>
+      </div>
+      <div class="wrap">
+        <table class="menu">
+          <thead><tr><th>Service</th><th style="text-align:right">Price</th></tr></thead>
+          <tbody>
+            <tr *ngFor="let m of menu[category]">
+              <td>{{ m.name }}<small>{{ m.note }}</small></td>
+              <td class="p">₱{{ m.price }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Estimated prices in Philippine pesos, set within typical per-kilo rates for laundry shops in the Philippines (about ₱45–₱80 per kg for regular clothes; comforters cost more).</p>
+    </section>
+
+  
+    <section *ngIf="page === 'estimate'">
+      <h2>Price estimator</h2>
+      <p>Add what you’re bringing and see your total.</p>
+      <div class="calc">
+        <div class="card">
+          <div class="row" *ngFor="let i of items">
+            <span>{{ i.name }}<small>₱{{ i.price }} {{ i.unit }}</small></span>
+            <span class="step">
+              <button type="button" [attr.aria-label]="'Less ' + i.name" (click)="change(i, -1)">−</button>
+              <output>{{ i.qty }}</output>
+              <button type="button" [attr.aria-label]="'More ' + i.name" (click)="change(i, 1)">+</button>
+            </span>
+          </div>
+        </div>
+        <aside class="card total">
+          <h3>Your estimate</h3>
+          <div class="big">₱{{ total }}</div>
+          <label><input type="checkbox" [checked]="express" (change)="express = $any($event.target).checked"> Express 3-hour turnaround (+₱40)</label>
+          <label><input type="checkbox" [checked]="delivery" (change)="delivery = $any($event.target).checked"> Pickup and delivery (+₱60)</label>
+          <p class="note" *ngIf="!base">Add an item to start.</p>
+          <p class="note" *ngIf="base">Items ₱{{ base }}<span *ngIf="express"> + Express ₱40</span><span *ngIf="delivery"> + Delivery ₱60</span></p>
+          <button type="button" class="btn" (click)="go('visit')">Where to drop off</button>
+        </aside>
+      </div>
+    </section>
+
+
+    <section *ngIf="page === 'visit'">
+      <h2>Visit us</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>NE Pacific Branch</h3>
+          <dl>
+            <dt>Address</dt><dd>NE Pacific Mall, KM 111 Maharlika Highway, Brgy. H. Concepcion Sr., Cabanatuan City, Nueva Ecija</dd>
+            <dt>Hours</dt><dd>Daily, 8:30 AM – 8:00 PM</dd>
+            <dt>Phone</dt><dd>+63 936 082 2212</dd>
+            <dt>Email</dt><dd>launderia2016&#64;gmail.com</dd>
+            <dt>Web</dt><dd>launderia.com</dd>
+          </dl>
+        </div>
+        <div class="card">
+          <h3>Good to know</h3>
+          <p>Laundry is weighed at the counter. Minimum of 3 kg for wash, dry &amp; fold.</p>
+          <p>Pickup and delivery covers nearby areas. Ask the counter about your address.</p>
+        </div>
+        <div class="card"><h3>Payment</h3><p>Cash and common e-wallets. Pay when you pick up.</p></div>
+      </div>
+      <p class="note">The mall address is from public records. Hours, phone and email come from the public listing for Launderia – Express Laundry in Cabanatuan City. </p>
+    </section>
+
+  </main>
+
+  <footer>© Launderia Laundry Express – NE Pacific Branch ·</footer>
+</ion-content>
+

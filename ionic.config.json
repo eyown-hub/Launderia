@@ -1,0 +1,7 @@
+{
+  "name": "Launderia",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
